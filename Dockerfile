@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # 初始化Go modules
-RUN go mod init
+RUN go mod init example.com/urlodai
 
 # 编译Go程序
 RUN go build -o main .

@@ -7,6 +7,9 @@ WORKDIR /app
 # 将代码复制到容器中
 COPY . .
 
+# 获取缺少的包
+RUN go get golang.org/x/net/html/charset
+
 # 初始化Go modules
 RUN go mod init example.com/urlodai
 

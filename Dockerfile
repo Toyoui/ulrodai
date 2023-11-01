@@ -7,6 +7,9 @@ WORKDIR /app
 # 将代码复制到容器中
 COPY . .
 
+# 初始化Go modules
+RUN go mod init
+
 # 编译Go程序
 RUN go build -o main .
 

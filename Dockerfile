@@ -4,8 +4,8 @@ FROM golang:latest
 # 设置工作目录
 WORKDIR /app
 
-# 添加空的go.mod文件
-RUN touch go.mod
+# 初始化Go modules
+RUN go mod init example.com/urlodai
 
 # 将代码复制到容器中
 COPY . .

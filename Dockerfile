@@ -10,8 +10,5 @@ COPY . .
 # 编译Go程序
 RUN go build -o main .
 
-# 暴露端口
-EXPOSE 8080
-
 # 运行Go程序
 CMD ["./main"]

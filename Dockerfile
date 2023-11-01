@@ -1,6 +1,10 @@
 # 基础镜像
 FROM golang:latest
 
+# 使用 Go Modules
+ENV GO111MODULE=on
+ENV GOPROXY=https://goproxy.io,direct
+
 # 设置工作目录
 WORKDIR /app
 

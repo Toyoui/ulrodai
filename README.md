@@ -2,5 +2,5 @@
 docker build -t urlodai .
 ```
 ```
-docker run myapp
+docker run urlodai
 ```

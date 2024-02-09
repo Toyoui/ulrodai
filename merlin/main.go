@@ -122,7 +122,7 @@ func getBrc420Assets(address string) ([]Brc420Asset, error) {
 func main() {
 	for {
 		// Create a ticker that ticks every 10 seconds
-		ticker := time.NewTicker(4 * time.Minute)
+		ticker := time.NewTicker(3 * time.Minute)
 
 		// Create a channel to receive a signal when the program should stop
 		stop := make(chan bool)

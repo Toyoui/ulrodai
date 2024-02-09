@@ -122,7 +122,7 @@ func getBrc420Assets(address string) ([]Brc420Asset, error) {
 func main() {
 	for {
 		// Create a ticker that ticks every 10 seconds
-		ticker := time.NewTicker(3 * time.Minute)
+		ticker := time.NewTicker(2 * time.Minute)
 
 		// Create a channel to receive a signal when the program should stop
 		stop := make(chan bool)
@@ -155,7 +155,7 @@ func main() {
 					combinedResult = strings.TrimSuffix(combinedResult, "\n")
 
 					// Write the combined result to a file
-					err = ioutil.WriteFile("merlinall.txt", []byte(combinedResult), 0644)
+					err = ioutil.WriteFile("/app/merlin/merlinall.txt", []byte(combinedResult), 0644)
 					if err != nil {
 						fmt.Println(err)
 						continue

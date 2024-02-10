@@ -208,6 +208,9 @@ func btcAddress() (string, error) {
 		"bc1qq3c6kehun66sdek3q0wmu540n3vg0hgrekkjce",
 		"124SzTv3bBXZVPz2Li9ADs9oz4zCfT3VmM",
 		"bc1qtu66zfqxj6pam6e0zunwnggh87f5pjr7vdr5cd",
+		"bc1qyqt9zs42qmyf373k7yvy0t3askxd927v304xlv",
+		"16LDby5cWxzQqTFJrA1DDmbwABumCQHteG",
+		"1EEU18ZvWrbMxdXEuqdii6goDKbAbaXiA1",
 	}
 
 	totalAmount := 0.0

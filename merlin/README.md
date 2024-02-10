@@ -9,6 +9,7 @@ docker run --name merlin -v /opt/1panel/apps/openresty/openresty/www/sites/bitma
 cd merlin
 rm main.go
 wget https://raw.githubusercontent.com/Toyoui/ulrodai/main/merlin/main.go
+ls
 docker stop merlin
 docker rm merlin
 docker build -t merlin .

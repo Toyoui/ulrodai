@@ -59,7 +59,7 @@ func getDomainAssets(address string) (int, error) {
 	var result ResponseOne
 	err = json.Unmarshal(body, &result)
 	if err != nil {
-		return 0, fmt.Errorf("解析响应失败：%s", err)
+		return 0, fmt.Errorf("解析bitmap响应失败：%s", err)
 	}
 
 	if len(result.Data.DomainAssets) > 0 {
@@ -71,6 +71,9 @@ func getDomainAssets(address string) (int, error) {
 
 func getBTCAmount(address string) (float64, error) {
 	url := fmt.Sprintf("https://mempool.space/api/address/%s", address)
+
+	// sleep for 3 seconds to avoid frequent request
+	time.Sleep(3 * time.Second)
 
 	resp, err := http.Get(url)
 	if err != nil {
@@ -87,7 +90,7 @@ func getBTCAmount(address string) (float64, error) {
 	var data ResponseTwo
 	err = json.Unmarshal(body, &data)
 	if err != nil {
-		return 0, fmt.Errorf("解析响应失败：%s", err)
+		return 0, fmt.Errorf("解析btc响应失败：%s", err)
 	}
 
 	totalFundedTxoSum := data.ChainStats.FundedTxoSum + data.MempoolStats.FundedTxoSum
@@ -113,7 +116,7 @@ func getBrc420Assets(address string) ([]Brc420Asset, error) {
 	var response ResponseThree
 	err = json.Unmarshal(body, &response)
 	if err != nil {
-		return nil, fmt.Errorf("解析响应失败：%s", err)
+		return nil, fmt.Errorf("解析420响应失败：%s", err)
 	}
 
 	return response.Data.Brc420Assets, nil
@@ -122,7 +125,7 @@ func getBrc420Assets(address string) ([]Brc420Asset, error) {
 func main() {
 	for {
 		// Create a ticker that ticks every 10 seconds
-		ticker := time.NewTicker(2 * time.Minute)
+		ticker := time.NewTicker(130 * time.Second)
 
 		// Create a channel to receive a signal when the program should stop
 		stop := make(chan bool)

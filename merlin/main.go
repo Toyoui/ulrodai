@@ -9,6 +9,18 @@ import (
 	"time"
 )
 
+type Response struct {
+	Code int `json:"code"`
+	Data struct {
+		List []struct {
+			Address    string `json:"address"`
+			CntBitmaps string `json:"cnt_bitmaps"`
+			Percent    string `json:"percent"`
+			Rank       string `json:"rank"`
+		} `json:"list"`
+	} `json:"data"`
+}
+
 type ResponseOne struct {
 	Data struct {
 		DomainAssets []struct {
@@ -122,10 +134,39 @@ func getBrc420Assets(address string) ([]Brc420Asset, error) {
 	return response.Data.Brc420Assets, nil
 }
 
+func GetCntBitmaps() (string, error) {
+	url := "https://www.geniidata.com/api/dashboard/chart/public/data?chartId=126020&pageSize=3&page=1&searchKey=&searchValue="
+
+	response, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+	defer response.Body.Close()
+
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return "", err
+	}
+
+	var responseObject Response
+	err = json.Unmarshal(body, &responseObject)
+	if err != nil {
+		return "", err
+	}
+
+	for _, item := range responseObject.Data.List {
+		if item.Rank == "1" {
+			return item.CntBitmaps, nil
+		}
+	}
+
+	return "", fmt.Errorf("cnt_bitmaps not found")
+}
+
 func main() {
 	for {
 		// Create a ticker that ticks every 10 seconds
-		ticker := time.NewTicker(130 * time.Second)
+		ticker := time.NewTicker(10 * time.Second)
 
 		// Create a channel to receive a signal when the program should stop
 		stop := make(chan bool)
@@ -158,7 +199,7 @@ func main() {
 					combinedResult = strings.TrimSuffix(combinedResult, "\n")
 
 					// Write the combined result to a file
-					err = ioutil.WriteFile("/app/merlin/merlinall.txt", []byte(combinedResult), 0644)
+					err = ioutil.WriteFile("merlinall.txt", []byte(combinedResult), 0644)
 					if err != nil {
 						fmt.Println(err)
 						continue
@@ -194,13 +235,16 @@ func brc420Address() (string, error) {
 
 func bitmapAddress() (string, error) {
 	Bitmap := "Bitmap"
-	address := "bc1qptgujmlkez7e6744yctzjgztu0st372mxs6702"
-	count, err := getDomainAssets(address)
+	//address := "bc1qptgujmlkez7e6744yctzjgztu0st372mxs6702"
+	//count, err := getDomainAssets(address)
+	count, err := GetCntBitmaps()
+	fmt.Println(count)
 	if err != nil {
 		return "", err
 	}
 
-	resultString := fmt.Sprintf("%s: %d\n", Bitmap, count)
+	resultString := fmt.Sprintf("%s: %s\n", Bitmap, count)
+	//resultString := fmt.Sprintf("%s: %d\n", Bitmap, count)
 	return resultString, nil
 }
 
